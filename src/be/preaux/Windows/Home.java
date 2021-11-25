@@ -7,6 +7,9 @@ import javax.swing.JOptionPane;
 
 import be.preaux.POJO.Bike;
 import be.preaux.POJO.Manager;
+import be.preaux.POJO.Member;
+import be.preaux.Windows.Manager.HomeManager;
+import be.preaux.Windows.Member.HomeMember;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -22,8 +25,10 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import java.awt.Panel;
 
-public class test {
+public class Home {
 
 	private JFrame frame;
 	private JTextField txtName;
@@ -41,7 +46,7 @@ public class test {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					test window = new test();
+					Home window = new Home();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,7 +58,7 @@ public class test {
 	/**
 	 * Create the application.
 	 */
-	public test() {
+	public Home() {
 		initialize();
 	}
 
@@ -61,27 +66,11 @@ public class test {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 643, 529);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
-		JButton TestConnect = new JButton("Test connect");
-		TestConnect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-								List<Manager> managers = new ArrayList<>();
-				Manager manager = new Manager();
-				managers = manager.getAllManager();
-				for (Manager m : managers) {
-					if (m.getNickname().toString().equals(txtConnectNickname.getText())
-							&& m.getPassword().toString().equals(String.valueOf(txtConnectPassword.getPassword()))) {
-						JOptionPane.showMessageDialog(null, "Bienvenue " + m.getSurname());
-					}
-				}	
-			}
-		});
-		TestConnect.setBounds(301, 165, 123, 23);
-		frame.getContentPane().add(TestConnect);
 		
 		txtName = new JTextField();
 		txtName.setBounds(102, 24, 86, 20);
@@ -110,19 +99,44 @@ public class test {
 		JButton Submit = new JButton("Submit");
 		Submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				panel.setEnabled(true);
+				List<Manager> managers = new ArrayList<>();
+				List<Member> members = new ArrayList<>();
+				Member member = new Member();
 				Manager manager = new Manager();
-				manager.setName(txtName.getText());
-				manager.setSurname(txtSurname.getText());
-				manager.setTelephone(txtTelephone.getText());
-				manager.setNickname(txtNickname.getText());
-				manager.setPassword(String.valueOf(txtPassword.getPassword()));
+				members = member.getAllMember();
+				managers = manager.getAllManager();
+				for (Manager m : managers) {
+					if (m.getNickname().toString().equalsIgnoreCase(txtNickname.getText())){
+						{
+							JOptionPane.showMessageDialog(null, "Erreur le pseudo : " + m.getNickname() + " existe déjà");
+							return;
+						}	
+					}
+				}
+				for (Member m : members) {
+					if (m.getNickname().toString().equalsIgnoreCase(txtNickname.getText())){
+						{
+							JOptionPane.showMessageDialog(null, "Erreur le pseudo : " + m.getNickname() + " existe déjà");
+							return;
+						}	
+					}
+				}
+				Member newMember = new Member();
+				newMember.setName(txtName.getText());
+				newMember.setSurname(txtSurname.getText());
+				newMember.setTelephone(txtTelephone.getText());
+				newMember.setNickname(txtNickname.getText());
+				newMember.setPassword(String.valueOf(txtPassword.getPassword()));
+				newMember.setBalance(0.0);
 				try {
-					manager.addManager();
+					newMember.addMember();
 					txtName.setText("");
 					txtSurname.setText("");
 					txtTelephone.setText("");
 					txtNickname.setText("");
 					txtPassword.setText("");
+					JOptionPane.showMessageDialog(null,"Le compte " + newMember.getNickname() + " a bien été créé"); 
 				}
 				catch (Exception error) {
 					JOptionPane.showMessageDialog(null,error.getMessage());
@@ -133,13 +147,8 @@ public class test {
 		Submit.setBounds(102, 215, 89, 23);
 		frame.getContentPane().add(Submit);
 		
-		txtConnectNickname = new JTextField();
-		txtConnectNickname.setColumns(10);
-		txtConnectNickname.setBounds(324, 105, 86, 20);
-		frame.getContentPane().add(txtConnectNickname);
-		
 		txtConnectPassword = new JPasswordField();
-		txtConnectPassword.setBounds(324, 135, 86, 20);
+		txtConnectPassword.setBounds(402, 166, 86, 20);
 		frame.getContentPane().add(txtConnectPassword);
 		
 		JLabel lblNewLabel = new JLabel("Name");
@@ -162,20 +171,68 @@ public class test {
 		lblTlphone.setBounds(33, 169, 59, 14);
 		frame.getContentPane().add(lblTlphone);
 		
-		JLabel lblNickname_1 = new JLabel("Nickname");
-		lblNickname_1.setBounds(268, 108, 46, 14);
-		frame.getContentPane().add(lblNickname_1);
-		
-		JLabel lblPassword_1 = new JLabel("Password");
-		lblPassword_1.setBounds(268, 138, 46, 14);
-		frame.getContentPane().add(lblPassword_1);
-		
 		JLabel lblNewLabel_1 = new JLabel("Inscription");
 		lblNewLabel_1.setBounds(80, 0, 74, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Connexion");
-		lblNewLabel_1_1.setBounds(295, 77, 74, 14);
+		lblNewLabel_1_1.setBounds(414, 45, 74, 14);
 		frame.getContentPane().add(lblNewLabel_1_1);
+		
+		
+		
+		txtConnectNickname = new JTextField();
+		txtConnectNickname.setBounds(440, 89, 86, 20);
+		frame.getContentPane().add(txtConnectNickname);
+		txtConnectNickname.setColumns(10);
+		
+		JLabel lblPassword_1 = new JLabel("Password");
+		lblPassword_1.setBounds(332, 169, 46, 14);
+		frame.getContentPane().add(lblPassword_1);
+		
+		JLabel lblNickname_1 = new JLabel("Nickname");
+		lblNickname_1.setBounds(385, 92, 45, 14);
+		frame.getContentPane().add(lblNickname_1);
+		
+		JButton TestConnect = new JButton("Test connect");
+		TestConnect.setBounds(447, 110, 95, 23);
+		frame.getContentPane().add(TestConnect);
+		TestConnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				List<Manager> managers = new ArrayList<>();
+				List<Member> members = new ArrayList<>();
+				Member member = new Member();
+				Manager manager = new Manager();
+				members = member.getAllMember();
+				managers = manager.getAllManager();
+				for (Manager m : managers) {
+					if (m.getNickname().toString().equalsIgnoreCase(txtConnectNickname.getText())){
+						if(m.getPassword().toString().equals(String.valueOf(txtConnectPassword.getPassword()))) 
+						{
+							JOptionPane.showMessageDialog(null, "Bienvenue manager " + m.getSurname());
+							HomeManager homeManager = new HomeManager(m);
+							homeManager.open(m);
+							frame.dispose();
+							return;
+						
+						}	
+					}
+				}
+				for (Member m : members) {
+					if (m.getNickname().toString().equalsIgnoreCase(txtConnectNickname.getText())){
+						if(m.getPassword().toString().equals(String.valueOf(txtConnectPassword.getPassword()))) 
+						{
+							JOptionPane.showMessageDialog(null, "Bienvenue membre " + m.getSurname());
+							HomeMember homeMember = new HomeMember(m);
+							homeMember.open(m);
+							frame.dispose();
+							return;
+						}	
+					}
+				}
+				
+				
+			}
+		});
 	}
 }

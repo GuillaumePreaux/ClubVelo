@@ -6,11 +6,23 @@ import be.preaux.DAO.DAOManager;
 
 public class Manager extends Person {
 	
+	private Category category;
 
-	public Manager(int IDPerson, String name, String surname, String telephone, String nickname, String password) {
+	public Manager(int IDPerson, String name, String surname, String telephone, String nickname, String password,Category category) {
 		super(IDPerson, name, surname, telephone, nickname, password);
-		// TODO Auto-generated constructor stub
+		this.category = category;
 	}
+
+	
+	public Category getCategory() {
+		return category;
+	}
+
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 
 	public Manager() {
 		super();
@@ -21,7 +33,7 @@ public class Manager extends Person {
 		DAOManager dao = new DAOManager(DBConnection.GetInstance());
 		return dao.find(id);
 	}
-	
+
 	public void addManager() throws Exception {
 		DAOManager dao = new DAOManager(DBConnection.GetInstance());
 		dao.create(this);

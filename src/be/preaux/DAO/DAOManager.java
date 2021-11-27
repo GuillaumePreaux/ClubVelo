@@ -6,7 +6,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.preaux.POJO.BikeHiker;
+import be.preaux.POJO.Cyclo;
+import be.preaux.POJO.DownhillSkier;
 import be.preaux.POJO.Manager;
+import be.preaux.POJO.TrialRider;
 
 public class DAOManager extends DAO<Manager>{
 
@@ -49,7 +53,7 @@ public class DAOManager extends DAO<Manager>{
 	public boolean update(Manager m) {
 		try {
 			String sql = "UPDATE Manager SET Name ='" + m.getName() +"',Surname = " + m.getSurname() +",Telephone = " + m.getTelephone() + ",Nickname =" + m.getNickname() + ",Password =" + m.getPassword() +
-							"WHERE IDManager ="+ m.getIDPerson();	
+						 "WHERE IDManager ="+ m.getIDPerson();	
 			PreparedStatement pst=connect.prepareStatement(sql);
 			pst.execute();
 			System.out.println("Modification effectuée");
@@ -67,11 +71,32 @@ public class DAOManager extends DAO<Manager>{
 		Manager manager = new Manager();
 		try {
 			String sql = "SELECT * FROM manager "
-					+ "WHERE IDPerson="+ id;
+					+ "WHERE IDManager="+ id;
 			ResultSet result = this.connect
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery(sql);
 			if (result.first()) {
-				manager.setIDPerson(id);
+				String sqlcategory = "SELECT name FROM category WHERE IDCategory=" + result.getInt("IDCategory");
+				ResultSet resultSqlCategory = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery(sqlcategory);
+				if(resultSqlCategory.first()) {
+					if (result.getInt("IDCategory") == 1) {
+						manager.setCategory(new Cyclo(1,resultSqlCategory.getString("name")));
+					}
+					else if (result.getInt("IDCategory") == 2) {
+						manager.setCategory(new TrialRider(2,resultSqlCategory.getString("name")));
+					}
+					else if (result.getInt("IDCategory") == 3) {
+						manager.setCategory(new DownhillSkier(3,resultSqlCategory.getString("name")));
+					}
+					else if (result.getInt("IDCategory") == 4) {
+						manager.setCategory(new BikeHiker(4,resultSqlCategory.getString("name")));
+					}
+					manager.setIDPerson(id);
+					manager.setName(result.getString("Name"));
+					manager.setSurname(result.getString("Surname"));
+					manager.setTelephone(result.getString("Telephone"));
+					manager.setNickname(result.getString("Nickname"));
+					manager.setPassword(result.getString("Password"));
+				}
 			}
 		
 		} catch (Exception e) {
@@ -91,6 +116,22 @@ public class DAOManager extends DAO<Manager>{
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery(sql);
 			while(result.next()) {
 				Manager manager = new Manager();
+				String sqlcategory = "SELECT name FROM category WHERE IDCategory=" + result.getInt("IDCategory");
+				ResultSet resultSqlCategory = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery(sqlcategory);
+				if(resultSqlCategory.first()) {
+					if (result.getInt("IDCategory") == 1) {
+						manager.setCategory(new Cyclo(1,resultSqlCategory.getString("name")));
+					}
+					else if (result.getInt("IDCategory") == 2) {
+						manager.setCategory(new TrialRider(2,resultSqlCategory.getString("name")));
+					}
+					else if (result.getInt("IDCategory") == 3) {
+						manager.setCategory(new DownhillSkier(3,resultSqlCategory.getString("name")));
+					}
+					else if (result.getInt("IDCategory") == 4) {
+						manager.setCategory(new BikeHiker(4,resultSqlCategory.getString("name")));
+					}
+				}
 				manager.setIDPerson(result.getInt("IDManager"));
 				manager.setSurname(result.getString("Surname"));
 				manager.setName(result.getString("Name"));

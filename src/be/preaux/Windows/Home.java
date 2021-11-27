@@ -6,8 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import be.preaux.POJO.Bike;
+import be.preaux.POJO.Calendar;
 import be.preaux.POJO.Manager;
 import be.preaux.POJO.Member;
+import be.preaux.POJO.Ride;
 import be.preaux.Windows.Manager.HomeManager;
 import be.preaux.Windows.Member.HomeMember;
 
@@ -99,7 +101,6 @@ public class Home {
 		JButton Submit = new JButton("Submit");
 		Submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panel.setEnabled(true);
 				List<Manager> managers = new ArrayList<>();
 				List<Member> members = new ArrayList<>();
 				Member member = new Member();
@@ -148,7 +149,7 @@ public class Home {
 		frame.getContentPane().add(Submit);
 		
 		txtConnectPassword = new JPasswordField();
-		txtConnectPassword.setBounds(402, 166, 86, 20);
+		txtConnectPassword.setBounds(440, 120, 86, 20);
 		frame.getContentPane().add(txtConnectPassword);
 		
 		JLabel lblNewLabel = new JLabel("Name");
@@ -187,7 +188,7 @@ public class Home {
 		txtConnectNickname.setColumns(10);
 		
 		JLabel lblPassword_1 = new JLabel("Password");
-		lblPassword_1.setBounds(332, 169, 46, 14);
+		lblPassword_1.setBounds(385, 123, 46, 14);
 		frame.getContentPane().add(lblPassword_1);
 		
 		JLabel lblNickname_1 = new JLabel("Nickname");
@@ -195,8 +196,19 @@ public class Home {
 		frame.getContentPane().add(lblNickname_1);
 		
 		JButton TestConnect = new JButton("Test connect");
-		TestConnect.setBounds(447, 110, 95, 23);
+		TestConnect.setBounds(466, 210, 95, 23);
 		frame.getContentPane().add(TestConnect);
+		
+		JButton btnNewButton = new JButton(" Inscription");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Manager manager = new Manager();
+				manager = manager.findManager(3);
+
+			}
+		});
+		btnNewButton.setBounds(434, 244, 108, 71);
+		frame.getContentPane().add(btnNewButton);
 		TestConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				List<Manager> managers = new ArrayList<>();
@@ -210,10 +222,17 @@ public class Home {
 						if(m.getPassword().toString().equals(String.valueOf(txtConnectPassword.getPassword()))) 
 						{
 							JOptionPane.showMessageDialog(null, "Bienvenue manager " + m.getSurname());
-							HomeManager homeManager = new HomeManager(m);
-							homeManager.open(m);
-							frame.dispose();
-							return;
+							HomeManager homeManager;
+							try {
+								homeManager = new HomeManager(m);
+								homeManager.open(m);
+								frame.dispose();
+								return;
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							
 						
 						}	
 					}

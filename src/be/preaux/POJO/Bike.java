@@ -11,22 +11,7 @@ public class Bike {
 	private String Type;
 	private Double Length;
 	
-	public Bike() {
-	}
-
-	public Bike(int iDBike, int iDMember, String brand, Double weight, String type, Double length) {
-		super();
-		IDBike = iDBike;
-		IDMember = iDMember;
-		Brand = brand;
-		Weight = weight;
-		Type = type;
-		Length = length;
-	}
-
 	
-	
-
 	public int getIDBike() {
 		return IDBike;
 	}
@@ -68,6 +53,20 @@ public class Bike {
 		DAOBike dao = new DAOBike(DBConnection.GetInstance());
 		return dao.find(id);
 	}
+	
+	public Bike() {
+	}
+
+	public Bike(int iDBike, int iDMember, String brand, Double weight, String type, Double length) {
+		super();
+		IDBike = iDBike;
+		IDMember = iDMember;
+		Brand = brand;
+		Weight = weight;
+		Type = type;
+		Length = length;
+	}
+
 
 	@Override
 	public String toString() {

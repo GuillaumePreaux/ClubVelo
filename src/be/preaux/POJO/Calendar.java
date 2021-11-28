@@ -8,10 +8,10 @@ public class Calendar {
 
 	private List<Ride> rides;
 	
-	public List<Ride> getAllRide(int IDRide) throws Exception 
+	public List<Ride> getAllRide(int IDCategory) throws Exception 
 	{
 		DAOCalandar dao = new DAOCalandar(DBConnection.GetInstance());
-		rides = dao.getAllByIDCategory(IDRide);
+		rides = dao.getAllByIDCategory(IDCategory);
 		return rides;
 	}
 	

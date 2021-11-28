@@ -4,6 +4,7 @@ public abstract class Category {
 	
 	protected int IDCategory;
 	protected String Name;
+	//RajouterCalendrier
 	
 	public int getIDCategory() {
 		return IDCategory;

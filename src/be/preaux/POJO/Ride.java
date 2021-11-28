@@ -2,13 +2,15 @@ package be.preaux.POJO;
 
 import java.time.*;
 
+import be.preaux.DAO.DAORide;
+
 public class Ride {
 	
 	private int IDRide;
 	private int IDCategory;
 	private String StartPlace;
 	private LocalDate StartDate;
-	private Double Fee;
+	private double Fee;
 	
 	
 	public int getIDRide() {
@@ -35,17 +37,17 @@ public class Ride {
 	public void setStartDate(LocalDate startDate) {
 		StartDate = startDate;
 	}
-	public Double getFee() {
+	public double getFee() {
 		return Fee;
 	}
-	public void setFee(Double fee) {
+	public void setFee(double fee) {
 		this.Fee = fee;
 	}
 	
 	public Ride() {
 		super();
 	}
-	public Ride(int iDRide, int iDCategory, String startPlace, LocalDate startDate, Double fee) {
+	public Ride(int iDRide, int iDCategory, String startPlace, LocalDate startDate, double fee) {
 		super();
 		IDRide = iDRide;
 		IDCategory = iDCategory;
@@ -54,5 +56,19 @@ public class Ride {
 		Fee = fee;
 	}
 	
+	public void addRide() throws Exception {
+		DAORide dao = new DAORide(DBConnection.GetInstance());
+		dao.create(this);
+	}
+	public void deleteRide() {
+		DAORide dao = new DAORide(DBConnection.GetInstance());
+		dao.delete(this.IDRide);
+	}
 	
+	public void updateRide()
+	{
+		DAORide dao = new DAORide(DBConnection.GetInstance());
+		dao.update(this);
+	}
+		
 }

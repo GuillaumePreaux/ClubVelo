@@ -36,6 +36,11 @@ public class Member extends Person{
 		dao.create(this);
 	}
 	
+	public void addCategoryMember(Member m,int ID) throws Exception {
+		DAOMember dao = new DAOMember(DBConnection.GetInstance());
+		dao.createCategoryMember(m,ID);
+	}
+	
 	public List<Member> getAllMember()
 	{
 		DAOMember dao = new DAOMember(DBConnection.GetInstance());

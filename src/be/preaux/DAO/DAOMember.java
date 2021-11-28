@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.preaux.POJO.Category;
 import be.preaux.POJO.Manager;
 import be.preaux.POJO.Member;
 
@@ -24,7 +25,20 @@ public class DAOMember extends DAO<Member> {
 				+ m.getNickname() + "','" + m.getPassword() + "'," + m.getBalance() +")";
 		PreparedStatement pst=connect.prepareStatement(sql);
 		pst.execute();
+		ResultSet result = pst.getGeneratedKeys();
+		if(result.next()) m.setIDPerson(result.getInt(1));
 		System.out.println("Member créé");
+		pst.close();
+		return true;
+
+}
+
+	public boolean createCategoryMember(Member m,int IDCategory) throws Exception {
+		String sql = "INSERT INTO [Category-Member](IDMember,IDCategory)"
+				+ "VALUES (" + m.getIDPerson() + "," + IDCategory + ")";
+		PreparedStatement pst=connect.prepareStatement(sql);
+		pst.execute();
+		System.out.println("Categorie/Membre créé");
 		pst.close();
 		return true;
 

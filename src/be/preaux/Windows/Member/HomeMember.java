@@ -1,16 +1,32 @@
 package be.preaux.Windows.Member;
 
 import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 
+import be.preaux.POJO.BikeHiker;
+import be.preaux.POJO.Category;
+import be.preaux.POJO.Cyclo;
+import be.preaux.POJO.DownhillSkier;
 import be.preaux.POJO.Member;
+import be.preaux.POJO.TrialRider;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class HomeMember {
 
 	private JFrame frame;
 	private Member member;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -23,6 +39,8 @@ public class HomeMember {
 	public HomeMember(Member m ) {
 		member = m;
 		initialize();
+		
+		
 		
 	}
 	
@@ -45,11 +63,11 @@ public class HomeMember {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 494, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Member ");
+		JLabel lblNewLabel = new JLabel("Membre");
 		lblNewLabel.setBounds(10, 11, 81, 14);
 		frame.getContentPane().add(lblNewLabel);
 		
@@ -58,6 +76,9 @@ public class HomeMember {
 		frame.getContentPane().add(lblName);
 		
 		lblName.setText(member.getSurname());
+		
+		
+		
+		
 	}
-
 }

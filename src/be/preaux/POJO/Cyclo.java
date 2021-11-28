@@ -1,5 +1,7 @@
 package be.preaux.POJO;
 
+import be.preaux.DAO.DAOCyclo;
+
 public class Cyclo extends Category {
 
 	public Cyclo() {
@@ -11,4 +13,9 @@ public class Cyclo extends Category {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Cyclo findCyclo(int id)
+	{
+		DAOCyclo dao = new DAOCyclo(DBConnection.GetInstance());
+		return dao.find(id);
+	}
 }

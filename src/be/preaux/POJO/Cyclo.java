@@ -1,5 +1,7 @@
 package be.preaux.POJO;
 
+import java.util.List;
+
 import be.preaux.DAO.DAOCyclo;
 
 public class Cyclo extends Category {
@@ -17,5 +19,11 @@ public class Cyclo extends Category {
 	{
 		DAOCyclo dao = new DAOCyclo(DBConnection.GetInstance());
 		return dao.find(id);
+	}
+	
+	public List<Category> findCategoriesByMember(int idMember) throws Exception 
+	{
+		DAOCyclo dao = new DAOCyclo(DBConnection.GetInstance());
+		return dao.findCategoriesByMember(idMember);
 	}
 }

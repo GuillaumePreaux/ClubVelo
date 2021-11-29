@@ -65,6 +65,7 @@ public class Categories {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		
 		List<Category> categories = new ArrayList<>();
 		Cyclo cyclo 				= new Cyclo();
 		TrialRider trialRider 		= new TrialRider();
@@ -83,10 +84,12 @@ public class Categories {
 		DefaultTableModel tableModel = new DefaultTableModel(col, 0);
 			for (int i = 0; i < categories.size(); i++) 
 			{
-				String nom = categories.get(i).getName();
-				Object[] data  = {nom};
-				tableModel.addRow(data);
+					String nom = categories.get(i).getName();
+					Object[] data  = {nom};
+					tableModel.addRow(data);
 			}
+				
+		
 		
 			table = new JTable(tableModel);
 			
@@ -100,16 +103,29 @@ public class Categories {
 			public void actionPerformed(ActionEvent e) {
 				int i = categories.get(selectedRow).getIDCategory();
 				try {
-					member.addMember();
-					member.addCategoryMember(member,i);
-					JOptionPane.showMessageDialog(null,"Le compte " + member.getNickname() + " a bien été créé"); 
+					if(member.getIDPerson() >0)
+					{
+						member.addCategoryMember(member,i);
+						JOptionPane.showMessageDialog(null,"Catégorie rajoutée"); 
+						HomeMember homemember = new HomeMember(member);
+						homemember.open(member);
+						frame.dispose();
+					}
+					else {
+						member.addMember();
+						member.addCategoryMember(member,i);
+						JOptionPane.showMessageDialog(null,"Le compte " + member.getNickname() + " a bien été créé"); 
+						HomeMember homemember = new HomeMember(member);
+						homemember.open(member);
+						frame.dispose();
+					}
+					
+					return;
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null,"La catégorie appartient déjà à " + member.getSurname());
 					HomeMember homemember = new HomeMember(member);
 					homemember.open(member);
 					frame.dispose();
-					return;
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
 			}
 		});
